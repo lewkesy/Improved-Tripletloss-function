@@ -25,6 +25,7 @@ def build_dict():
 
 class basicIterator:
     def __init__(self, batch_size, num_cate, visited, d_dict):
+        visited,d_dict=build_dict()
         self.num_cate=num_cate
         self.cate_size=batch_size/self.num_cate
         self.batch_idx=np.random.randint(102,size=self.num_cate)
