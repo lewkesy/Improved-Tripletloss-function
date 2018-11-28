@@ -6,7 +6,7 @@ from os.path import normpath as fn
 import os
 
 _cur_dir = os.path.dirname(os.path.realpath(__file__))
-TRAIN_DIR = os.path.join(_cur_dir, '../caltech/caltech_train/')
+TRAIN_DIR = os.path.join(_cur_dir, '../data/train/')
 
 def build_dict():
     v_dict={}
@@ -41,7 +41,7 @@ class basicIterator:
             self.cate_idx[k]=np.random.randint(len(self.visited[self.d_dict[k]]),size=int(self.cate_size))
         for b_idx in self.batch_idx:
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn(TRAIN_DIR+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn(TRAIN_DIR+ self.d_dict[b_idx] + '/' + self.visited[self.d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
                 res_y.append(self.d_dict[b_idx])
@@ -53,7 +53,6 @@ class triplessIterator:
         self.visited,self.d_dict=build_dict()
         self.num_cate=3
         self.cate_size=batch_size/self.num_cate
-        print(self.cate_size)
         self.batch_idx=np.random.randint(102, size=2)
         self.cate_idx={}
         for k in self.batch_idx:
@@ -69,7 +68,7 @@ class triplessIterator:
         for b_idx in self.batch_idx:
             
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn(TRAIN_DIR+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn(TRAIN_DIR+ self.d_dict[b_idx] + '/' + self.visited[self.d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
                 res_y.append(self.d_dict[b_idx])
