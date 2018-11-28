@@ -1,3 +1,4 @@
 train/
 *.ipynb
 .ipynb_checkpoints/
+caltech/
