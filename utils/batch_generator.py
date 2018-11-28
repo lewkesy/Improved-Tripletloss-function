@@ -5,17 +5,21 @@ import numpy as np
 import os
 from skimage.io import imread
 from os.path import normpath as fn
+import os
+
+_cur_dir = os.path.dirname(os.path.realpath(__file__))
+TRAIN_DIR = os.path.join(_cur_dir, '../caltech/caltech_train/')
 
 def main():
-	visited,d_dict=build_dict()
-	basic_i=basicIterator(60,6,visited,d_dict)
+    visited,d_dict=build_dict()
+    basic_i=basicIterator(60,6,visited,d_dict)
     print(basic_i)
 
 def build_dict():
     v_dict={}
     d_dict={}
-    for i, dirname in enumerate(os.listdir("../data/train")):
-        rel_name="../data/train/"+dirname
+    for i, dirname in enumerate(os.listdir(TRAIN_DIR)):
+        rel_name=TRAIN_DIR+dirname
         d_dict[i]=dirname
         c_dict={}
         for j, filename in enumerate(os.listdir(rel_name)):
@@ -43,7 +47,7 @@ class basicIterator:
             self.cate_idx[k]=np.random.randint(len(visited[d_dict[k]]),size=int(self.cate_size))
         for b_idx in self.batch_idx:
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn('../data/train/'+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn(TRAIN_DIR+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
                 res_y.append(d_dict[b_idx])
@@ -71,7 +75,7 @@ class triplessIterator:
         for b_idx in self.batch_idx:
             
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn('../data/train/'+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn(TRAIN_DIR+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
                 res_y.append(d_dict[b_idx])
