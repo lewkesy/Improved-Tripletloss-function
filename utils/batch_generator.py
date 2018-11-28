@@ -1,15 +1,8 @@
-import tensorflow as tf
-import keras
-from keras import backend as Keras
 import numpy as np
 import os
+from skimage.transform import resize
 from skimage.io import imread
 from os.path import normpath as fn
-
-def main():
-	visited,d_dict=build_dict()
-	basic_i=basicIterator(60,6,visited,d_dict)
-    print(basic_i)
 
 def build_dict():
     v_dict={}
@@ -24,15 +17,16 @@ def build_dict():
     return v_dict, d_dict
 
 class basicIterator:
-    def __init__(self, batch_size, num_cate, visited, d_dict):
-        visited,d_dict=build_dict()
+
+    def __init__(self, batch_size, num_cate):
+        self.visited,self.d_dict=build_dict()
+        
         self.num_cate=num_cate
         self.cate_size=batch_size/self.num_cate
         self.batch_idx=np.random.randint(102,size=self.num_cate)
         self.cate_idx={}
         for k in self.batch_idx:
-            self.cate_idx[k]=np.random.randint(len(visited[d_dict[k]]),size=int(self.cate_size))
-        self.d_dict=d_dict
+            self.cate_idx[k]=np.random.randint(len(self.visited[self.d_dict[k]]),size=int(self.cate_size))
 
     def next(self):
         res_x=[]
@@ -40,46 +34,44 @@ class basicIterator:
         self.batch_idx=np.random.randint(102,size=self.num_cate)
         self.cate_idx={}
         for k in self.batch_idx:
-            self.cate_idx[k]=np.random.randint(len(visited[d_dict[k]]),size=int(self.cate_size))
+            self.cate_idx[k]=np.random.randint(len(self.visited[self.d_dict[k]]),size=int(self.cate_size))
         for b_idx in self.batch_idx:
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn('../data/train/'+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn('../data/train/'+ self.d_dict[b_idx] + '/' + self.visited[self.d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
-                res_y.append(d_dict[b_idx])
+                res_y.append(self.d_dict[b_idx])
         return np.array(res_x),np.array(res_y)
 
 class triplessIterator:
 
     def __init__(self, batch_size):
-        visited,d_dict=build_dict()
+        self.visited,self.d_dict=build_dict()
         self.num_cate=3
         self.cate_size=batch_size/self.num_cate
         print(self.cate_size)
         self.batch_idx=np.random.randint(102, size=2)
         self.cate_idx={}
         for k in self.batch_idx:
-            self.cate_idx[k]=np.random.randint(len(visited[d_dict[k]]),size=int(self.cate_size))
-        self.d_dict=d_dict
+            self.cate_idx[k]=np.random.randint(len(self.visited[self.d_dict[k]]),size=int(self.cate_size))
+
 
     def next(self):
         res_x=[]
         res_y=[]
         for k in self.batch_idx:
-            self.cate_idx[k]=np.random.randint(len(visited[d_dict[k]]),size=int(self.cate_size))
+            self.cate_idx[k]=np.random.randint(len(self.visited[self.d_dict[k]]),size=int(self.cate_size))
         count=0
         for b_idx in self.batch_idx:
             
             for c_idx in self.cate_idx[b_idx]:
-                img = np.float32(imread(fn('../data/train/'+ d_dict[b_idx] + '/' + visited[d_dict[b_idx]][c_idx])))/255.
+                img = np.float32(imread(fn('../data/train/'+ self.d_dict[b_idx] + '/' + self.visited[self.d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
-                res_y.append(d_dict[b_idx])
+                res_y.append(self.d_dict[b_idx])
                 
             if(count==0):
                 res_x+=res_x
                 res_y+=res_y
                 count+=1
         return np.array(res_x),np.array(res_y)
-	
-if __name__ == "__main__": main()
