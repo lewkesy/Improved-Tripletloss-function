@@ -2,3 +2,6 @@ train/
 *.ipynb
 .ipynb_checkpoints/
 caltech/
+alexnet/*.pyc
+alexnet/**/*.pyc
+utils/__pycache__/
