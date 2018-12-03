@@ -78,3 +78,25 @@ class triplessIterator:
                 res_y+=res_y
                 count+=1
         return np.array(res_x),np.array(res_y)
+
+class ImprovedTriplessIterator:
+
+    def __init__(self, batch_size):
+        self.visited,self.d_dict=build_dict()
+        self.num_cate=3
+        self.cate_size=batch_size/self.num_cate
+        # self.batch_cate1_idx=np.random.randint(102, size=cate_size)
+        # self.batch_cate2_idx=np.random.randint(102, size=cate_size)
+
+    def next(self):
+        res_x=[]
+        res_y=[]
+        for i in range(int(self.cate_size)):
+            idx=np.random.randint(102, size=2)
+            src_idx=np.random.randint(len(self.d_dict[idx[0]]))
+            tar_idx=np.random.randint(len(self.d_dict[idx[1]]))
+            img_src = resize(np.float32(imread(fn(TRAIN_DIR+ self.d_dict[idx[0]] + '/' + self.visited[self.d_dict[idx[0]]][src_idx])))/255.,(224,224,3),anti_aliasing=True)
+            img_tar=resize(np.float32(imread(fn(TRAIN_DIR+ self.d_dict[idx[1]] + '/' + self.visited[self.d_dict[idx[1]]][tar_idx])))/255.,(224,224,3),anti_aliasing=True)
+            res_x.append([img_src,img_src,img_tar])
+            res_y.append([self.d_dict[idx[0]],self.d_dict[idx[0]],self.d_dict[idx[1]]])
+        return np.array(res_x),np.array(res_y)
