@@ -65,7 +65,9 @@ def alexnet_model(img_shape=(224, 224, 3), n_classes=10, l2_reg=0.,
     # Layer 8
     alexnet.add(Dense(n_classes))
     alexnet.add(BatchNormalization())
-    alexnet.add(Activation('softmax'))
+
+    #### We need the batchnormed features for tripletloss calculation
+    # alexnet.add(Activation('softmax'))
 
     if weights is not None:
         alexnet.load_weights(weights)
