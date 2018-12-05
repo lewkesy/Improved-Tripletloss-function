@@ -5,3 +5,5 @@ caltech/
 alexnet/*.pyc
 alexnet/**/*.pyc
 utils/__pycache__/
+data/train
+data/test
