@@ -1,4 +1,5 @@
 ########### loss function ####################################################
+from keras import backend as Keras
 
 def triplet_loss(y_true, y_pred):
 
