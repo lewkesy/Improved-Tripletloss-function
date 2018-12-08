@@ -21,13 +21,15 @@ original compile code for alexnet
 
 '''
 
-def get_gen(gen):
+def get_gen(gen, triplet=False):
     while True:
         images, labels = gen.next()
         images = preprocess_input(images)
         labels = [classes.index(x) for x in labels]
         labels = to_categorical(labels, num_classes=num_classes)
+        if triplet:
+            labels = [labels, np.ones([len(labels), 1])]
         yield images, labels
 
-train_gen = get_gen(BasicTriplessIterator(batch_size))
-test_gen = get_gen(BasicTriplessIteratorTest(batch_size))
+train_gen = get_gen(BasicTriplessIterator(batch_size), triplet=True)
+test_gen = get_gen(BasicTriplessIteratorTest(batch_size), triplet=True)
