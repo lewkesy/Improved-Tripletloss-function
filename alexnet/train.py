@@ -3,7 +3,7 @@ sys.path.append("../utils")
 from alexnet import alexnet_model
 from loss_function import triplet_loss, improved_triplet_loss
 # from alexnet_multi_loss import alexnet_model
-from batch_generator import ImprovedTripletIterator, ImprovedTripletIteratorTest, BasicTriplessIterator, BasicTriplessIteratorTest
+from batch_generator import ImprovedTripletIterator, ImprovedTripletIteratorTest, BasicTripletIterator, BasicTripletIteratorTest
 import os
 import numpy as np
 from keras.utils.np_utils import to_categorical
