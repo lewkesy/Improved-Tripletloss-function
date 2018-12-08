@@ -1,5 +1,6 @@
 ########### loss function ####################################################
 from keras import backend as Keras
+a = 0.6
 
 def triplet_loss(y_true, y_pred):
 
