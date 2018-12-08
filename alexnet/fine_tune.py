@@ -10,8 +10,6 @@ from keras import backend as K
 from loss_function import triplet_loss
 from data import num_classes, get_train_gen, get_test_gen, num_train_samples, num_test_samples, batch_size, use_triplet
 
-optimizer = SGD(lr=0.01, momentum=0.9)
-
 # create the base pre-trained model
 base_model = ResNet50(weights='imagenet', include_top=False)
 
@@ -30,6 +28,7 @@ predictions = Dense(num_classes, activation='softmax')(x)
 for layer in base_model.layers:
     layer.trainable = False
 model = Model(inputs=base_model.input, outputs=predictions)
+optimizer = SGD(lr=0.01, momentum=0.9)
 model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 train_gen = get_train_gen(False)
 test_gen = get_test_gen(False)
@@ -45,8 +44,9 @@ else:
 
 
 # compile the model (should be done *after* setting layers to non-trainable)
+optimizer = SGD(lr=0.001, momentum=0.9)
 if use_triplet:
-    model.compile(optimizer=optimizer, loss=['categorical_crossentropy', triplet_loss], loss_weights=[1.0, 0.5], metrics=['accuracy'])
+    model.compile(optimizer=optimizer, loss=['categorical_crossentropy', triplet_loss], loss_weights=[1.0, 0.2], metrics=['accuracy'])
 else:
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
