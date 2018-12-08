@@ -3,7 +3,7 @@ sys.path.append("../utils")
 from alexnet import alexnet_model
 from loss_function import triplet_loss, improved_triplet_loss
 # from alexnet_multi_loss import alexnet_model
-from batch_generator import ImprovedTriplessIterator, ImprovedTriplessIteratorTest
+from batch_generator import ImprovedTripletIterator, ImprovedTripletIteratorTest, BasicTriplessIterator, BasicTriplessIteratorTest
 import os
 import numpy as np
 from keras.utils.np_utils import to_categorical
@@ -28,12 +28,13 @@ def get_gen(gen):
         images, labels = gen.next()
         print(images);print(labels);quit()
         images = images.astype(np.float32) / 127. - 1.
+        print(labels);quit()
         labels = [classes.index(x) for x in labels]
         labels = to_categorical(labels, num_classes=num_classes)
         yield images, labels
 
-train_gen = get_gen(ImprovedTriplessIterator(batch_size))
-test_gen = get_gen(ImprovedTriplessIteratorTest(batch_size))
+train_gen = get_gen(ImprovedTripletIterator(batch_size, num_classes))
+test_gen = get_gen(ImprovedTripletIteratorTest(batch_size, num_classes))
 
 '''
 This is the example to train multi_loss model
