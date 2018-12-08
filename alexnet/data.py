@@ -21,9 +21,6 @@ original compile code for alexnet
 
 '''
 
-alexnet = alexnet_model((224, 224, 3), num_classes, 0.00001)
-alexnet.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
 def get_gen(gen):
     while True:
         images, labels = gen.next()
@@ -32,5 +29,5 @@ def get_gen(gen):
         labels = to_categorical(labels, num_classes=num_classes)
         yield images, labels
 
-train_gen = get_gen(ImprovedTripletIterator(batch_size, 15))
-test_gen = get_gen(ImprovedTripletIteratorTest(batch_size, 15))
+train_gen = get_gen(BasicTriplessIterator(batch_size))
+test_gen = get_gen(BasicTriplessIteratorTest(batch_size))
