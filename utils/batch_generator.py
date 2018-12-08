@@ -34,7 +34,7 @@ def build_dict_test():
     return td_dict
 
 
-class BasicTripletIterator:
+class BasicTriplessIterator:
 
     def __init__(self, batch_size):
         self.batch_size=batch_size
@@ -47,21 +47,17 @@ class BasicTripletIterator:
         res_y=[]
         for i in range(int(self.cate_size)):
             idx=np.random.randint(102, size=2)
-            src_idx1=np.random.randint(len(self.d_dict[idx[0]]))
-            src_idx2=np.random.randint(len(self.d_dict[idx[0]]))
-            tar_idx=np.random.randint(len(self.d_dict[idx[1]]))
+            src_idx1=np.random.randint(len(self.visited[self.d_dict[idx[0]]]))
+            src_idx2=np.random.randint(len(self.visited[self.d_dict[idx[0]]]))
+            tar_idx=np.random.randint(len(self.visited[self.d_dict[idx[1]]]))
             img_src1 = resize(np.float32(imread(fn(TRAIN_DIR+ self.d_dict[idx[0]] + '/' + self.visited[self.d_dict[idx[0]]][src_idx1])))/255.,(224,224,3),anti_aliasing=True)
             img_src2 = resize(np.float32(imread(fn(TRAIN_DIR+ self.d_dict[idx[0]] + '/' + self.visited[self.d_dict[idx[0]]][src_idx2])))/255.,(224,224,3),anti_aliasing=True)
             img_tar=resize(np.float32(imread(fn(TRAIN_DIR+ self.d_dict[idx[1]] + '/' + self.visited[self.d_dict[idx[1]]][tar_idx])))/255.,(224,224,3),anti_aliasing=True)
             res_x.append([img_src1,img_src2,img_tar])
-            label1=np.zeros(102)
-            label1[idx[0]]=1
-            label2=np.zeros(102)
-            label2[idx[1]]=1
-            res_y.append([label1,label1,label2])
-        return np.array(res_x).reshape((self.batch_size,224,224,3)),np.array(res_y).reshape((self.batch_size,102))
+            res_y.append([self.d_dict[idx[0]],self.d_dict[idx[0]],self.d_dict[idx[1]]])
+        return np.array(res_x).reshape((self.batch_size,224,224,3)),np.array(res_y).reshape((self.batch_size,))
 
-class BasicTripletIteratorTest:
+class BasicTriplessIteratorTest:
 
     def __init__(self, batch_size):
         self.batch_size=batch_size
@@ -77,20 +73,17 @@ class BasicTripletIteratorTest:
             idx=np.random.randint(102, size=2)
             src_name=self.d_dict[idx[0]]
             tar_name=self.d_dict[idx[1]]
-            self.td_dict[src_name]
+            
             src_idx1=np.random.randint(len(self.td_dict[src_name]))
             src_idx2=np.random.randint(len(self.td_dict[src_name]))
             tar_idx=np.random.randint(len(self.td_dict[tar_name]))
             img_src1 = resize(np.float32(imread(fn(TEST_DIR + '/' + self.td_dict[src_name][src_idx1])))/255.,(224,224,3),anti_aliasing=True)
             img_src2 = resize(np.float32(imread(fn(TEST_DIR + '/' + self.td_dict[src_name][src_idx2])))/255.,(224,224,3),anti_aliasing=True)
             img_tar = resize(np.float32(imread(fn(TEST_DIR + '/' + self.td_dict[tar_name][tar_idx])))/255.,(224,224,3),anti_aliasing=True)
-            label1=np.zeros(102)
-            label1[idx[0]]=1
-            label2=np.zeros(102)
-            label2[idx[1]]=1
+            
             res_x.append([img_src1,img_src2,img_tar])
-            res_y.append([label1,label1,label2])
-        return np.array(res_x).reshape((self.batch_size,224,224,3)),np.array(res_y).reshape((self.batch_size,102))
+            res_y.append([src_name,src_name,tar_name])
+        return np.array(res_x).reshape((self.batch_size,224,224,3)),np.array(res_y).reshape((self.batch_size,))
 
 
 class ImprovedTripletIterator:
@@ -116,9 +109,7 @@ class ImprovedTripletIterator:
                 img = np.float32(imread(fn(TRAIN_DIR+ self.d_dict[b_idx] + '/' + self.visited[self.d_dict[b_idx]][c_idx])))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
-                label=np.zeros(102)
-                label[b_idx]=1
-                res_y.append(label)
+                res_y.append(self.d_dict[b_idx])
         return np.array(res_x),np.array(res_y)
 
 class ImprovedTripletIteratorTest:
@@ -148,9 +139,7 @@ class ImprovedTripletIteratorTest:
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
                 # res_y.append(self.d_dict[b_idx])
-                label=np.zeros(102)
-                label[b_idx]=1
-                res_y.append(label)
+                res_y.append(self.d_dict[b_idx])
         return np.array(res_x),np.array(res_y)
 
 # class ImprovedTriplessIterator:
