@@ -10,9 +10,9 @@ def triplet_loss(y_true, y_pred):
 	# The input data should be like [cls1, cls1, cls_another]
 	x = Keras.l2_normalize(y_pred, axis=1) 
 	part_batch =int(batch_size/3) 
-	anchor = x[:part_batch, :]
-	positive = x[part_batch: 2 * part_batch, :]
-	negative = x[2 * part_batch:, :]
+	anchor = x[::part_batch, :]
+	positive = x[1::part_batch, :]
+	negative = x[2::part_batch, :]
 	dis_pos = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - positive)), axis=1, keepdims=True))
 	dis_neg = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - negative)), axis=1, keepdims=True))
 	# embed()
