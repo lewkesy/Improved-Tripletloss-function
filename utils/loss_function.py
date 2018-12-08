@@ -3,7 +3,7 @@ from keras import backend as Keras
 import sys
 sys.path.append("../data")
 from data import batch_size
-a = 0.6
+a = 0.2
 
 def triplet_loss(y_true, y_pred):
 

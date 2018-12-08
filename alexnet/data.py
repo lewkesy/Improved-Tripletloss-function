@@ -15,6 +15,7 @@ num_classes = len(classes)
 batch_size = 30
 num_train_samples = 3700
 num_test_samples = 1600
+use_triplet = True
 
 '''
 original compile code for alexnet
@@ -31,5 +32,7 @@ def get_gen(gen, triplet=False):
             labels = [labels, np.ones([len(labels), 1])]
         yield images, labels
 
-train_gen = get_gen(BasicTriplessIterator(batch_size), triplet=True)
-test_gen = get_gen(BasicTriplessIteratorTest(batch_size), triplet=True)
+def get_train_gen(triplet=use_triplet):
+    return get_gen(BasicTriplessIterator(batch_size), triplet=triplet)
+def get_test_gen(triplet=use_triplet):
+    return get_gen(BasicTriplessIteratorTest(batch_size), triplet=triplet)

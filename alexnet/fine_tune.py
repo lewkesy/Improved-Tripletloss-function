@@ -8,7 +8,9 @@ from keras.models import Model
 from keras.layers import Dense, GlobalAveragePooling2D
 from keras import backend as K
 from loss_function import triplet_loss
-from data import num_classes, train_gen, test_gen, num_train_samples, num_test_samples, batch_size
+from data import num_classes, get_train_gen, get_test_gen, num_train_samples, num_test_samples, batch_size, use_triplet
+
+optimizer = SGD(lr=0.01, momentum=0.9)
 
 # create the base pre-trained model
 base_model = ResNet50(weights='imagenet', include_top=False)
@@ -24,16 +26,33 @@ x = GlobalAveragePooling2D()(x)
 feat = x
 predictions = Dense(num_classes, activation='softmax')(x)
 
-# this is the model we will train
-model = Model(inputs=base_model.input, outputs=[predictions, feat])
-
+# train the fc layer first
 for layer in base_model.layers:
     layer.trainable = False
+model = Model(inputs=base_model.input, outputs=predictions)
+model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+train_gen = get_train_gen(False)
+test_gen = get_test_gen(False)
+model.fit_generator(train_gen, steps_per_epoch=int(num_train_samples/batch_size), epochs=2, validation_data=test_gen, validation_steps=int(num_test_samples/batch_size), max_queue_size=10, workers=5, shuffle=True)
+
+# this is the model we will train
+for layer in base_model.layers:
+    layer.trainable = True
+if use_triplet:
+    model = Model(inputs=base_model.input, outputs=[predictions, feat])
+else:
+    model = Model(inputs=base_model.input, outputs=predictions)
+
 
 # compile the model (should be done *after* setting layers to non-trainable)
-model.compile(optimizer='adam', loss=['categorical_crossentropy', triplet_loss], metrics=['accuracy'])
+if use_triplet:
+    model.compile(optimizer=optimizer, loss=['categorical_crossentropy', triplet_loss], loss_weights=[1.0, 0.5], metrics=['accuracy'])
+else:
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
 # train the model on the new data for a few epochs
+train_gen = get_train_gen()
+test_gen = get_test_gen()
 model.fit_generator(train_gen, steps_per_epoch=int(num_train_samples/batch_size), epochs=5, validation_data=test_gen, validation_steps=int(num_test_samples/batch_size), max_queue_size=10, workers=5, shuffle=True)
 
 quit()
