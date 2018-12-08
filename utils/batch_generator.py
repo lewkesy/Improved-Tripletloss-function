@@ -137,7 +137,7 @@ class ImprovedTripletIteratorTest:
                 img = np.float32(imread(fn(TEST_DIR+ '/' + name)))/255.
                 img = resize(img,(224,224,3),anti_aliasing=True)
                 res_x.append(img)
-                res_y.append(name)
+                res_y.append(self.d_dict[b_idx])
         return np.array(res_x),np.array(res_y)
 
 # class ImprovedTriplessIterator:
