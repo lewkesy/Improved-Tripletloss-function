@@ -26,15 +26,15 @@ alexnet.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc
 def get_gen(gen):
     while True:
         images, labels = gen.next()
-        print(images);print(labels);quit()
+        print(labels)
         images = images.astype(np.float32) / 127. - 1.
-        print(labels);quit()
         labels = [classes.index(x) for x in labels]
         labels = to_categorical(labels, num_classes=num_classes)
         yield images, labels
 
-train_gen = get_gen(ImprovedTripletIterator(batch_size, num_classes))
-test_gen = get_gen(ImprovedTripletIteratorTest(batch_size, num_classes))
+train_gen = get_gen(ImprovedTripletIterator(batch_size, 5))
+test_gen = get_gen(ImprovedTripletIteratorTest(batch_size, 5))
+print(test_gen.__next__()[1]);quit()
 
 '''
 This is the example to train multi_loss model
