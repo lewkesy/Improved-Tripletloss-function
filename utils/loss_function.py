@@ -1,15 +1,24 @@
 ########### loss function ####################################################
+from keras import backend as Keras
+import sys
+sys.path.append("../data")
+from data import batch_size
+
+a = 1.0
 
 def triplet_loss(y_true, y_pred):
 
 	# The input data should be like [cls1, cls1, cls_another]
-	x = Keras.l2_normalize(y_pred, axis=1) 
+	#x = Keras.l2_normalize(y_pred, axis=1) 
+	x = y_pred
 	part_batch =int(batch_size/3) 
-	anchor = x[:part_batch, :]
-	positive = x[part_batch: 2 * part_batch, :]
-	negative = x[2 * part_batch:, :]
-	dis_pos = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - positive)), axis=1, keepdims=True))
-	dis_neg = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - negative)), axis=1, keepdims=True))
+	anchor = x[::3, :]
+	positive = x[1::3, :]
+	negative = x[2::3, :]
+	#dis_pos = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - positive)), axis=1, keepdims=True))
+	#dis_neg = Keras.sqrt(Keras.sum(Keras.square(Keras.abs(anchor - negative)), axis=1, keepdims=True))
+	dis_pos = Keras.mean(Keras.square(Keras.abs(anchor - positive)), axis=1, keepdims=True)
+	dis_neg = Keras.mean(Keras.square(Keras.abs(anchor - negative)), axis=1, keepdims=True)
 	# embed()
 	res = Keras.maximum(0.0, dis_pos - dis_neg + a)
 
