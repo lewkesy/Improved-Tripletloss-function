@@ -1,0 +1,75 @@
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{ahmed2015improved}
+E.~Ahmed, M.~Jones, and T.~K. Marks.
+\newblock An improved deep learning architecture for person re-identification.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 3908--3916, 2015.
+
+\bibitem{cheng2016person}
+D.~Cheng, Y.~Gong, S.~Zhou, J.~Wang, and N.~Zheng.
+\newblock Person re-identification by multi-channel parts-based cnn with
+  improved triplet loss function.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 1335--1344, 2016.
+
+\bibitem{deliege2018hitnet}
+A.~Deli{\`e}ge, A.~Cioppa, and M.~Van~Droogenbroeck.
+\newblock Hitnet: a neural network with capsules embedded in a hit-or-miss
+  layer, extended with hybrid data augmentation and ghost capsules.
+\newblock {\em arXiv preprint arXiv:1806.06519}, 2018.
+
+\bibitem{griffin2007caltech}
+G.~Griffin, A.~Holub, and P.~Perona.
+\newblock Caltech-256 object category dataset.
+\newblock 2007.
+
+\bibitem{lee2018dropmax}
+H.~B. Lee, J.~Lee, S.~Kim, E.~Yang, and S.~J. Hwang.
+\newblock Dropmax: Adaptive variational softmax.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  925--935, 2018.
+
+\bibitem{leng2018learning}
+B.~Leng, C.~Zhang, X.~Zhou, C.~Xu, and K.~Xu.
+\newblock Learning discriminative 3d shape representations by view discerning
+  networks.
+\newblock {\em IEEE transactions on visualization and computer graphics}, 2018.
+
+\bibitem{liu2016end}
+H.~Liu, J.~Feng, M.~Qi, J.~Jiang, and S.~Yan.
+\newblock End-to-end comparative attention networks for person
+  re-identification.
+\newblock {\em arXiv preprint arXiv:1606.04404}, 2016.
+
+\bibitem{schroff2015facenet}
+F.~Schroff, D.~Kalenichenko, and J.~Philbin.
+\newblock Facenet: A unified embedding for face recognition and clustering.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 815--823, 2015.
+
+\bibitem{su2016deep}
+C.~Su, S.~Zhang, J.~Xing, W.~Gao, and Q.~Tian.
+\newblock Deep attributes driven multi-camera person re-identification.
+\newblock In {\em European conference on computer vision}, pages 475--491.
+  Springer, 2016.
+
+\bibitem{varior2016learning}
+R.~R. Varior, G.~Wang, J.~Lu, and T.~Liu.
+\newblock Learning invariant color features for person reidentification.
+\newblock {\em IEEE Transactions on Image Processing}, 25(7):3395--3410, 2016.
+
+\bibitem{wang2014learning}
+J.~Wang, Y.~Song, T.~Leung, C.~Rosenberg, J.~Wang, J.~Philbin, B.~Chen, and
+  Y.~Wu.
+\newblock Learning fine-grained image similarity with deep ranking.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 1386--1393, 2014.
+
+\bibitem{yi2014deep}
+D.~Yi, Z.~Lei, S.~Liao, and S.~Z. Li.
+\newblock Deep metric learning for person re-identification.
+\newblock In {\em Pattern Recognition (ICPR), 2014 22nd International
+  Conference on}, pages 34--39. IEEE, 2014.
+
+\end{thebibliography}
