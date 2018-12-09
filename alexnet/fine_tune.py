@@ -32,7 +32,7 @@ optimizer = SGD(lr=0.01, momentum=0.9)
 model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 train_gen = get_train_gen(False)
 test_gen = get_test_gen(False)
-model.fit_generator(train_gen, steps_per_epoch=int(num_train_samples/batch_size), epochs=2, validation_data=test_gen, validation_steps=int(num_test_samples/batch_size), max_queue_size=10, workers=5, shuffle=True)
+model.fit_generator(train_gen, steps_per_epoch=int(num_train_samples/batch_size), epochs=0, validation_data=test_gen, validation_steps=int(num_test_samples/batch_size), max_queue_size=10, workers=5, shuffle=True)
 
 # this is the model we will train
 for layer in base_model.layers:
@@ -46,7 +46,7 @@ else:
 # compile the model (should be done *after* setting layers to non-trainable)
 optimizer = SGD(lr=0.001, momentum=0.9)
 if use_triplet:
-    model.compile(optimizer=optimizer, loss=['categorical_crossentropy', triplet_loss], loss_weights=[1.0, 0.2], metrics=['accuracy'])
+    model.compile(optimizer=optimizer, loss=['categorical_crossentropy', triplet_loss], loss_weights=[1.0, 1.0], metrics=['accuracy'])
 else:
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 

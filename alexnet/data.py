@@ -29,7 +29,9 @@ def get_gen(gen, triplet=False):
         labels = [classes.index(x) for x in labels]
         labels = to_categorical(labels, num_classes=num_classes)
         if triplet:
-            labels = [labels, np.ones([len(labels), 1])]
+            debug = np.zeros([len(labels), 2048])
+            debug[:, 0] = 1
+            labels = [labels, debug]
         yield images, labels
 
 def get_train_gen(triplet=use_triplet):
